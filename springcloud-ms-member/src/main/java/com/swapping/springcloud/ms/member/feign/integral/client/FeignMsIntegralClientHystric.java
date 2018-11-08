@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 /**
  * 熔断器  断路器
  *
+ * 1.作为fallBack,相当于是降级处理。
+ * 对于操作请求，如果超时或处理失败，可以通过抛出异常来通知消费者服务，来进行补救处理。
+ * 对于查询请求，如果超时或请求失败，可以通过返回默认值或查询缓存来返回。
+ *
+ * 2.熔断器使用说明参见：https://www.cnblogs.com/sxdcgaq8080/p/9921355.html
  */
 @Component
 public class FeignMsIntegralClientHystric implements FeignMsIntegralClient {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * 断路器
+ * 熔断器 断路器
  */
 @Component
 public class FeignMsGoodsClientHystric implements FeignMsGoodsClient{

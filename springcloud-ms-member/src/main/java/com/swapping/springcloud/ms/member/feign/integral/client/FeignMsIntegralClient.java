@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 3.如果被调用方，也就是服务提供者在服务注册中心有多个实例，则调用方的多次请求会自动轮询到每个服务提供方来处理，
  * 这就是注册中心的负载均衡的功能
  */
-@FeignClient(name = "springcloud-ms-integral")
+@FeignClient(name = "springcloud-ms-integral",fallback = FeignMsIntegralClientHystric.class)
 public interface FeignMsIntegralClient {
 
     /**
