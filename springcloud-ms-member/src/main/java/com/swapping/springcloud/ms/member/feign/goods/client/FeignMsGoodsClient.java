@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 注意feign上不要使用@RequestMapping,因为当有Accept header,会出现404
  *
  */
-@FeignClient(name = "springcloud-ms-goods",fallback = FeignMsGoodsClientFallback.class)
+@FeignClient(name = "springcloud-ms-goods",fallback = FeignMsGoodsClientHystric.class)
 public interface FeignMsGoodsClient {
 
     /**

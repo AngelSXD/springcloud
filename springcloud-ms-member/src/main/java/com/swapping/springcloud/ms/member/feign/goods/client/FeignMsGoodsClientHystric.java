@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * 断路器
  */
 @Component
-public class FeignMsGoodsClientFallback implements FeignMsGoodsClient{
+public class FeignMsGoodsClientHystric implements FeignMsGoodsClient{
 
     @Override
     public UniVerResponse<GoodsOrder> insertOrder(GoodsOrder goodsOrder) {
