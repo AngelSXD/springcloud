@@ -4,6 +4,7 @@ import com.codingapi.tx.annotation.ITxTransaction;
 import com.codingapi.tx.annotation.TxTransaction;
 import com.swapping.springcloud.ms.integral.dao.IntegralDao;
 import com.swapping.springcloud.ms.integral.domain.Integral;
+import com.swapping.springcloud.ms.integral.mapper.IntegralMapper;
 import com.swapping.springcloud.ms.integral.service.IntegralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,12 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class IntegralServiceImpl implements IntegralService,ITxTransaction{
+public class IntegralServiceImpl implements IntegralService{
 
 
     @Autowired
     IntegralDao integralDao;
 
+    @Autowired
+    IntegralMapper integralMapper;
 
     /**
      * 事务参与方,被调用方
@@ -43,6 +46,15 @@ public class IntegralServiceImpl implements IntegralService,ITxTransaction{
         Integral save = integralDao.save(entity);
                 int a = 1/0;
         return save;
+    }
+
+    @Override
+    @Transactional
+    @TxTransaction
+    public int saveByMybatis(Integral integral) {
+        int a = integralMapper.insertIntegral(integral);
+//        int b = 1/0;
+        return a;
     }
 
     @Override

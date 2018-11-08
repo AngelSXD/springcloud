@@ -5,6 +5,7 @@ import com.swapping.springcloud.ms.integral.domain.Integral;
 import com.swapping.springcloud.ms.integral.feign.member.bean.Member;
 import com.swapping.springcloud.ms.integral.feign.member.client.FeignMsMemberClient;
 import com.swapping.springcloud.ms.integral.service.IntegralService;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,5 +55,20 @@ public class IntegralController {
 //            res.beFalse("会员不存在",UniVerResponse.ERROR_BUSINESS);
 //        }
         return  res;
+    }
+
+    /**
+     * 测试 mybatis的分布式事务
+     * @return
+     */
+    @RequestMapping(value = "/saveByMybatis", method = RequestMethod.POST)
+    public UniVerResponse<Integer> saveByMybatis(@RequestBody Integral integral){
+        UniVerResponse.checkField(integral,"memberUid");
+        UniVerResponse<Integer> res = new UniVerResponse<>();
+        integral.initEntity();
+        integral.setIntegralNum(888888L);
+        int num = integralService.saveByMybatis(integral);
+        res.beTrue(num);
+        return res;
     }
 }

@@ -7,4 +7,6 @@ public interface MemberService extends ICRUDService<Member> {
     Member findByMemberName(String memberName);
 
     Member get(String memberUid);
+
+    Member saveByMabatis(Member member);
 }

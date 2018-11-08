@@ -11,6 +11,7 @@ import com.swapping.springcloud.ms.member.feign.goods.bean.Goods;
 import com.swapping.springcloud.ms.member.feign.goods.client.FeignMsGoodsClient;
 import com.swapping.springcloud.ms.member.feign.integral.bean.Integral;
 import com.swapping.springcloud.ms.member.feign.integral.client.FeignMsIntegralClient;
+import com.swapping.springcloud.ms.member.mapper.MemberMapper;
 import com.swapping.springcloud.ms.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +35,8 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
     @Autowired
     FeignMsGoodsClient goodsClient;
 
-
+    @Autowired
+    MemberMapper memberMapper;
     /**
      * 事务发起方
      *
@@ -82,6 +84,23 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
 
 
         return save;
+    }
+
+
+    @Override
+    @Transactional
+    @TxTransaction(isStart = true)
+    public Member saveByMabatis(Member member) {
+        String uid = member.getUid();
+        int num = memberMapper.save(member);
+        Integral integral = new Integral();
+        integral.setMemberUid(uid);
+        UniVerResponse<Integer> integralRes = integralClient.saveByMybatis(integral);
+        if (!integralRes.isSuccess()){
+            throw  new MyException("积分保存异常");
+        }
+        int a = 1/0;
+        return num>0 ? memberMapper.findByUid(uid) : null;
     }
 
     @Override

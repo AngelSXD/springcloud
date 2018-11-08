@@ -55,6 +55,35 @@ public class MemberController {
 
     }
 
+    /**
+     * 保存会员信息
+     *
+     * 测试mybatis分布式事务
+     * @param member
+     * @return
+     */
+    @RequestMapping(value = "/saveByMybatis",method = RequestMethod.POST)
+    public UniVerResponse<Member> saveByMybatis(@RequestBody Member member) {
+        UniVerResponse.checkField(member, "memberName");
+        UniVerResponse<Member> res = new UniVerResponse<>();
+        Member old = memberService.findByMemberName(member.getMemberName());
+        if (old == null){
+            member.initEntity();
+
+            String password = member.getPassword();
+            member.setPassword(StringUtils.isBlank(password) ? SwappingUtils.MD5("123456") : password);
+            Member save = memberService.saveByMabatis(member);
+            if (save != null){
+                res.beTrue(save);
+            }else {
+                res.beFalse("会员新增失败",UniVerResponse.ERROR_BUSINESS);
+            }
+        }else {
+            res.beFalse("重复会员名称，请勿使用",UniVerResponse.ERROR_PARAMS);
+        }
+
+        return res;
+    }
 
     /**
      * 根据会员id  获取会员信息
