@@ -27,6 +27,18 @@ public class MemberController {
 
     /**
      * 新增 会员信息
+     *
+     * ======业务验证=====
+     * 必填：会员名称
+     * 验证：会员名称是否重复
+     * ===================
+     *
+     * ======业务操作=====
+     * 1.保存会员信息
+     * 2.为本会员新增 会员原始积分信息
+     * 3.返回保存结果
+     * ===================
+     *
      * @param member
      * @return
      */
@@ -54,6 +66,23 @@ public class MemberController {
         return  res;
 
     }
+
+
+    /**
+     * 根据会员id  获取会员信息
+     * @param memberUid
+     * @return
+     */
+    @RequestMapping(value = "/findMemberByUid", method = RequestMethod.GET)
+    public UniVerResponse<Member> findMemberByUid(String memberUid){
+
+        UniVerResponse.simplCheckField(memberUid,"memberUid");
+        UniVerResponse<Member> res = new UniVerResponse<>();
+        res.beTrue(memberService.get(memberUid));
+        return res;
+    }
+
+
 
     /**
      * 保存会员信息
@@ -85,17 +114,5 @@ public class MemberController {
         return res;
     }
 
-    /**
-     * 根据会员id  获取会员信息
-     * @param memberUid
-     * @return
-     */
-    @RequestMapping(value = "/findMemberByUid", method = RequestMethod.GET)
-    public UniVerResponse<Member> findMemberByUid(String memberUid){
 
-        UniVerResponse.simplCheckField(memberUid,"memberUid");
-        UniVerResponse<Member> res = new UniVerResponse<>();
-        res.beTrue(memberService.get(memberUid));
-        return res;
-    }
 }

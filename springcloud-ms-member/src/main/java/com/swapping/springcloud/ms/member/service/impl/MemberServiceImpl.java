@@ -37,6 +37,8 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
 
     @Autowired
     MemberMapper memberMapper;
+
+
     /**
      * 事务发起方
      *
@@ -44,10 +46,18 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
      * @TxTransaction(isStart=true)     标明是事务发起方
      *
      * 2.需要注解
-     * @Transactional       需要事务注解
+     * @Transactional       需要显示事务注解
      *
      * 3.需要TxManagerTxUrlServiceImpl 获取@Value("${tm.manager.url}")
      *
+     * 4.需要TxManagerHttpRequestServiceImpl
+     *
+     * 5.需要被调用方  feign 设置 fallback熔断器【如果有统一异常处理，则被调用方抛异常不会进入熔断器】【如果没有统一异常处理，则熔断器必不可少】
+     *
+     * 统一异常拦截器【com.swapping.springcloud.ms.core.exception.MyControllerAdvice】
+     *
+     *
+     * 【注意】同一个事务中，不能同时使用jpa和mybatis进行操作。
      *
      * @param entity
      * @return
@@ -56,33 +66,17 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
     @TxTransaction(isStart=true)
     @Transactional
     public Member insert(Member entity){
-        Member save = null;
+        Member save = memberDao.save(entity);
+
+        //为本会员设置原始积分
         Integral integral = new Integral();
+        integral.setIntegralNum(0L);
         integral.setMemberUid(entity.getUid());
-
-        save = memberDao.save(entity);
-
-        /**
-         * 因为 做了异常统一拦截，所以integralClient 并不会最后返回的是抛出的异常
-         * 而是 异常统一拦截器【com.swapping.springcloud.ms.core.exception.MyControllerAdvice】处理之后的结果
-         * 故而需要自己 判断返回结果，自己抛出异常进行事务回滚，而【有了异常统一拦截之后的熔断器就不会起作用了】
-         *
-         */
         UniVerResponse<Integral> integralRes = integralClient.save(integral);
         if (!integralRes.isSuccess()){
             throw new MyException("系统异常，请稍后重试");
         }
-        Goods goods = new Goods();
-        goods.setGoodsName(entity.getMemberName());
-        goods.setGoodsPrice(11L);
-        goods.setStock(200L);
-        UniVerResponse<Goods> goodsRes = goodsClient.save(goods);
-//        if (integralRes.isSuccess()){
-//            save = memberDao.save(entity);
-//        }
 //        int a = 1/0;
-
-
         return save;
     }
 
@@ -99,7 +93,7 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
         if (!integralRes.isSuccess()){
             throw  new MyException("积分保存异常");
         }
-        int a = 1/0;
+//        int a = 1/0;
         return num>0 ? memberMapper.findByUid(uid) : null;
     }
 

@@ -5,7 +5,11 @@ import com.swapping.springcloud.ms.core.response.UniVerResponse;
 import com.swapping.springcloud.ms.member.feign.integral.bean.Integral;
 import org.springframework.stereotype.Component;
 
-//@Component
+/**
+ * 熔断器  断路器
+ *
+ */
+@Component
 public class FeignMsIntegralClientHystric implements FeignMsIntegralClient {
 
 

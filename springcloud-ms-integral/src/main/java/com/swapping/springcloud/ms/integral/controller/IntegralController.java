@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/integral")
 public class IntegralController {
@@ -22,38 +24,39 @@ public class IntegralController {
     @Autowired
     FeignMsMemberClient memberClient;
 
+
+    /**
+     * 会员积分记录
+     *
+     * 新增或更新接口【接口应保证幂等性 故而一种接口两种功能应该尽量避免（虽然本接口的结果是幂等的）】
+     * @param entity
+     * @return
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public UniVerResponse<Integral> save(@RequestBody Integral entity){
         UniVerResponse.checkField(entity,"memberUid");
 
         UniVerResponse<Integral> res = new UniVerResponse<>();
+        String memberUid = entity.getMemberUid();
 
-        entity.initEntity();
-        entity.setIntegralNum(999999999L);
-        Integral save = integralService.insert(entity);
-        res.beTrue(entity);
+        //验证每个会员积分记录的唯一性
+        Integral old = integralService.findByMember(memberUid);
+        if (old == null){
+            old = new Integral();
+            old.initEntity();
+            old.setMemberUid(memberUid);
+        }else {
+            old.setUpdateDate(new Date());
+        }
+        old.setIntegralNum(entity.getIntegralNum());
 
+        Integral save = integralService.insert(old);
+        if (save != null){
+            res.beTrue(entity);
+        }else {
+            res.beFalse("会员新增积分记录失败",UniVerResponse.ERROR_BUSINESS);
+        }
 
-        //验证会员存在性
-//        UniVerResponse<Member> memberRes = memberClient.findMemberByUid(entity.getMemberUid());
-//        Member verify = memberRes.getObj();
-//        if (memberRes.isSuccess() && verify != null){
-//            Integral old = integralService.findByMember(entity.getMemberUid());
-//            if (old == null){
-//                entity.initEntity();
-//                entity.setIntegralNum(999999999L);
-//                Integral save = integralService.insert(entity);
-//                if (save != null){
-//                    res.beTrue(entity);
-//                }else {
-//                    res.beFalse("会员新增积分记录失败",UniVerResponse.ERROR_BUSINESS);
-//                }
-//            }else {
-//                res.beFalse2("本会员已有积分数据存在",UniVerResponse.ERROR_BUSINESS,entity);
-//            }
-//        }else {
-//            res.beFalse("会员不存在",UniVerResponse.ERROR_BUSINESS);
-//        }
         return  res;
     }
 

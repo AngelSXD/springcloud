@@ -31,9 +31,11 @@ public class IntegralServiceImpl implements IntegralService{
      *
      * 1.需要注解@TxTransaction 标明是事务参与方  或者 本service直接实现接口ITxTransaction
      *
-     * 2.需要注解@Transactional
+     * 2.需要显示注解@Transactional
      *
      * 3.需要TxManagerTxUrlServiceImpl获取@Value("${tm.manager.url}")
+     *
+     * 4.需要TxManagerHttpRequestServiceImpl
      *
      *
      * @param entity
@@ -44,7 +46,7 @@ public class IntegralServiceImpl implements IntegralService{
     @Transactional
     public Integral insert(Integral entity){
         Integral save = integralDao.save(entity);
-                int a = 1/0;
+//        int a = 1/0;
         return save;
     }
 
