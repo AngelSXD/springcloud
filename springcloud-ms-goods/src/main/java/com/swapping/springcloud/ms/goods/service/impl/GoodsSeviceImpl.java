@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GoodsSeviceImpl  implements GoodsService,ITxTransaction{
+public class GoodsSeviceImpl  implements GoodsService{
 
     @Autowired
     GoodsDao goodsDao;
@@ -31,7 +31,7 @@ public class GoodsSeviceImpl  implements GoodsService,ITxTransaction{
     @Transactional
     public Goods insert(Goods entity){
         Goods save = goodsDao.save(entity);
-//        int a = 1/0;
+        int a = 1/0;
         return save;
     }
 
