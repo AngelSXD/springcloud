@@ -5,6 +5,7 @@
 
 [3.【spring cloud】spring cloud 使用feign调用，1.fallback熔断器不起作用，2.启动报错Caused by: java.lang.ClassNotFoundException: com.netflix.hystrix.contrib.javanica.aop.aspectj.Hystri解决](https://www.cnblogs.com/sxdcgaq8080/p/9921355.html)
 
+[4.【spring cloud】spring cloud2.X spring boot2.0.4调用feign配置Hystrix Dashboard 和 集成Turbine 【解决：Hystrix仪表盘Unable to connect to Command Metric Stream】【解决：Hystrix仪表盘Loading...】](https://www.cnblogs.com/sxdcgaq8080/p/9935557.html)
 
 注明：
 1.本项目所有的操作接口，返回结果为null，则处理为false！！！
