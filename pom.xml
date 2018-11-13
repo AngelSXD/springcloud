@@ -18,6 +18,7 @@
 	<modules>
 		<module>springcloud-ms-core</module>
 		<module>springcloud-ms-eureka</module>
+		<module>springcloud-ms-hystrix-turbine</module>
 		<module>tx-manager</module>
 
 		<module>springcloud-ms-member</module>
@@ -61,6 +62,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!--熔断器 健康检查-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<!--========================spring boot 基础依赖  end ==============================-->
 
 
@@ -80,6 +87,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+		<!--熔断器 Dashboard-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
@@ -88,6 +96,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
 		</dependency>
+
 		<!--最外层 主项目 添加spring cloud依赖 end -->
 
 
