@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableHystrixDashboard//展示熔断器仪表盘
 
 @EnableTransactionManagement
-@SpringBootApplication(scanBasePackages = "com.swapping")
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients({"com.swapping"})
 @MapperScan("com.swapping.springcloud.ms.integral.mapper")
+@SpringBootApplication(scanBasePackages = "com.swapping")
 public class SpringcloudMsIntegralApplication {
 
 	public static void main(String[] args) {

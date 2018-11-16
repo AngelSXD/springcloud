@@ -40,6 +40,14 @@ public class IntegralController {
         String memberUid = entity.getMemberUid();
 
         //验证每个会员积分记录的唯一性
+        /**
+         * 注意，虽然这里的查询方法在业务上并不参与原子性
+         *
+         * 但是既然本controller被调用，那么作为被feign调用的这一方，即便是这个查询方法，也需要作为事务的参与者，再查询方法上添加注解
+         *  @Transactional
+         *  @TxTransaction
+         *
+         */
         Integral old = integralService.findByMember(memberUid);
         if (old == null){
             old = new Integral();
