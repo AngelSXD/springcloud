@@ -1,6 +1,5 @@
 package com.swapping.springcloud.ms.goods.service.impl;
 
-import com.codingapi.tx.annotation.ITxTransaction;
 import com.codingapi.tx.annotation.TxTransaction;
 import com.swapping.springcloud.ms.goods.dao.GoodsDao;
 import com.swapping.springcloud.ms.goods.dao.GoodsOrderDao;
@@ -11,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +28,7 @@ public class GoodsSeviceImpl  implements GoodsService{
     @Transactional
     public Goods insert(Goods entity){
         Goods save = goodsDao.save(entity);
-        int a = 1/0;
+//        int a = 1/0;
         return save;
     }
 

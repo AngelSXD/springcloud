@@ -58,14 +58,35 @@ public class UniVerResponse<T> implements Serializable {
     }
 
 
-
+    /**
+     * 抛异常beFalse
+     * @param msg
+     * @param code
+     */
     public void  beFalse(String msg,int code){
         throw new MyException(msg,code,obj);
     }
 
+    /**
+     * 抛异常beFalse2
+     * @param msg
+     * @param code
+     * @param obj
+     */
     public void beFalse2(String msg,int code,T obj){
         this.obj = obj;
         beFalse(msg,code);
+    }
+
+    /**
+     * 不抛出异常 beFalse3
+     * @param msg
+     * @param code
+     */
+    public void beFalse3(String msg,int code){
+        this.success = false;
+        this.code = code;
+        this.msg = msg;
     }
 
     /**

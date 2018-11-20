@@ -21,6 +21,13 @@ public class MemberController {
 
     @RequestMapping(value = "/showMember")
     public String showMember(){
+        System.out.println("请求到达！！！！");
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "会员服务正常,会员服务是服务消费者,也就是服务调用者,会调用商品服务进行商品购买,减少库存,增加销量;\n\r同时调用积分服务,增加积分";
     }
 

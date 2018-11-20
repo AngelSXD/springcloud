@@ -1,6 +1,7 @@
 package com.swapping.springcloud.ms.test.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 @RestController
 @RequestMapping("/test")
@@ -22,6 +20,7 @@ public class MyTestController {
     @Autowired
     RestTemplate testRestTemplate;
 
+    Date date;
     /**
      * 登录 并 获取sessionKey
      * @return
@@ -35,7 +34,7 @@ public class MyTestController {
         requestHeaders.setContentType(contentType);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("loginName", "13000000000");
+        jsonObject.put("loginName", "19999999999");
         jsonObject.put("loginPwd", "123456");
         jsonObject.put("loginType", "tenement");
         jsonObject.put("uiType", "pc");
@@ -65,22 +64,45 @@ public class MyTestController {
 
     /**
      * 生成sign
-     * 2da8a91c94164df9ac3f08c21061841a
+     * ba323306745f2fea44a77b57b0fdaca0a8346719
      *
-     * {"luna-zuul-auth-login-name":"sxd","luna-zuul-auth-ui-type":"pc","securityCode":"262541833908841115"}db7b75f07d7d41c3bc5b033c2009c0b5
+     *
      * @return
      */
     @RequestMapping("/createSign")
     public String createSign(){
-        String sessionKey = "4f76b87dfd544c6c9290d0d0196e9b09";
+        String sessionKey = "0027c4fbf4d844a2b9edd5f589865c77";
         Map<String,Object> treeMap = new TreeMap<>();
         treeMap.put("luna-zuul-auth-login-name","13000000000");
         treeMap.put("luna-zuul-auth-ui-type","pc");
-        treeMap.put("securityCode","182970001001848481");
+        treeMap.put("securityCode","299210229282059566");
 
         String sign = createSign(sessionKey,treeMap);
         return sign;
     }
+
+    @RequestMapping("/createSign2")
+    public String createSign2(){
+
+        String sessionKey = "8fe2793a0ae44ba5805464e776b51b0b";
+        Map<String,Object> treeMap = new TreeMap<>();
+        treeMap.put("luna-zuul-auth-login-name","13000000000");
+        treeMap.put("luna-zuul-auth-ui-type","pc");
+
+        List<String> scList = new ArrayList<>();
+        scList.add("123");
+        scList.add("456");
+
+        date = new Date(1542326400000L);
+//        System.out.println("时间:"+date.getTime());
+        treeMap.put("scList", JSONArray.parseArray(JSON.toJSONString(scList)));
+        System.out.println(JSONArray.parseArray(JSON.toJSONString(scList)));
+        treeMap.put("date",date);
+
+        String sign = createSign(sessionKey,treeMap);
+        return sign;
+    }
+
 
     private String createSign(String sessionKey,Map<String,Object> params){
 
@@ -127,8 +149,8 @@ public class MyTestController {
         Map<String,String> params = new HashMap<>();
         params.put("luna-zuul-auth-login-name","13000000000");
         params.put("luna-zuul-auth-ui-type","pc");
-        params.put("luna-zuul-auth-sign","f0d3a31cb7d26da0e088be8cb91be785ce418d13");
-        params.put("securityCode","182970001001848481");
+        params.put("luna-zuul-auth-sign","ba323306745f2fea44a77b57b0fdaca0a8346719");
+        params.put("securityCode","299210229282059566");
 //        String result=template.getForObject(
 //                "http://localhost:34626/ms-code/ten/getScBaseInfo?" +
 //                        "luna-zuul-auth-login-name={luna-zuul-auth-login-name}" +
@@ -143,6 +165,49 @@ public class MyTestController {
                         "&luna-zuul-auth-sign={luna-zuul-auth-sign}" +
                         "&securityCode={securityCode}", String.class, params);
 
+
+        return result;
+    }
+
+    @RequestMapping("/actQa")
+    public String actQa(){
+
+        RestTemplate template=new RestTemplate();
+
+        //封装 头信息
+        HttpHeaders requestHeaders = new HttpHeaders();
+        MediaType contentType = MediaType.parseMediaType("application/json;charset=UTF-8");
+        requestHeaders.setContentType(contentType);
+
+        //组装基础数据
+        Map<String,Object> params = new HashMap<>();
+        params.put("luna-zuul-auth-login-name","13000000000");
+        params.put("luna-zuul-auth-ui-type","pc");
+        params.put("luna-zuul-auth-sign","b6dc01c64a50451244f135b1d2ca3d7d87b36008");
+
+        List<String> scList = new ArrayList<>();
+        scList.add("123");
+        scList.add("456");
+        params.put("scList",JSONArray.parseArray(JSON.toJSONString(scList)));
+        Date date = new Date();
+        date.setTime(1542361391578L);
+        params.put("date",date);
+
+
+
+        HttpEntity<String> requestEntity = new HttpEntity<String>(JSON.toJSONString(params), requestHeaders);
+
+        String url = "http://open.lqjava.com/wj/pisenfw/gateway/ms-code/ten/code/qa/actQa";
+
+        ResponseEntity<String> response = template.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        String body = response.getBody();
+        JSONObject parseObject = JSON.parseObject(body);
+        System.out.println(body);
+        String result = null;
+        if (parseObject.getBoolean("success")) {
+            result = (String) parseObject.get("obj");
+        }
 
         return result;
     }

@@ -73,10 +73,17 @@ public class MemberServiceImpl implements MemberService,ITxTransaction{
         integral.setIntegralNum(0L);
         integral.setMemberUid(entity.getUid());
         UniVerResponse<Integral> integralRes = integralClient.save(integral);
-        if (!integralRes.isSuccess()){
-            throw new MyException("系统异常，请稍后重试");
-        }
-//        int a = 1/0;
+
+//        Goods  goods = new Goods();
+//        goods.setGoodsName(save.getMemberName());
+//        goods.setGoodsPrice(12L);
+//        goods.setStock(998L);
+//        UniVerResponse<Goods> goodsRes = goodsClient.save(goods);
+//        if (!integralRes.isSuccess() || !goodsRes.isSuccess()){
+//            throw new MyException("服务异常，请稍后重试");
+//        }
+
+        int a = 1/0;
         return save;
     }
 
