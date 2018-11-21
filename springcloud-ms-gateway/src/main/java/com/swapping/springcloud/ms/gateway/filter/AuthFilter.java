@@ -1,5 +1,6 @@
 package com.swapping.springcloud.ms.gateway.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
@@ -75,7 +76,7 @@ public class AuthFilter extends ZuulFilter{
 
             ctx.setSendZuulResponse(false); //不对请求进行路由
             ctx.setResponseStatusCode(res.getCode());//设置返回状态码
-            ctx.setResponseBody("没有auth");//设置返回响应体
+            ctx.setResponseBody(JSON.toJSONString(res));//设置返回响应体
             ctx.set("isSuccess", false);
             ctx.getResponse().setContentType("application/json;charset=UTF-8");//设置返回响应体格式，可能会乱码
 

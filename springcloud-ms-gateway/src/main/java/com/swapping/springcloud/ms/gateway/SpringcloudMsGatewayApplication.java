@@ -18,6 +18,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 2.路由熔断 fallback
  * 3.路由重试 retry
  *
+ *
+ *
  */
 @EnableCircuitBreaker    //Hystrix Dashboard必须加
 @EnableHystrixDashboard//展示熔断器仪表盘
