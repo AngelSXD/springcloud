@@ -20,6 +20,7 @@
 		<module>springcloud-ms-eureka</module>
 		<module>springcloud-ms-gateway</module>
 		<module>springcloud-ms-hystrix-turbine</module>
+		<module>springcloud-ms-sleuth-zipkin</module>
 		<module>tx-manager</module>
 
 		<module>springcloud-ms-member</module>
@@ -68,7 +69,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		<!--========================spring boot 基础依赖  end ==============================-->
 
 
@@ -98,6 +98,11 @@
 			<artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
 		</dependency>
 
+		<!-- zipkin 支持 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
+		</dependency>
 		<!--最外层 主项目 添加spring cloud依赖 end -->
 
 
