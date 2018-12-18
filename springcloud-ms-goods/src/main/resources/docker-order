@@ -1,0 +1,35 @@
+
+#查看镜像
+docker images
+
+#删除指定镜像
+docker rmi  镜像ID
+
+
+#根据上传的jar包和Dockerfile内容，构建镜像
+docker build -t ms-goods .
+
+
+#使用构建的镜像，运行docker容器
+docker run --name ms-goods -itd --net=host -m 2g \
+-v /apps/springcloud/ms-goods/paking_data:/paking_data \
+-v /etc/localtime:/etc/localtime:ro \
+-v /etc/timezone:/etc/timezone:ro \
+ms-goods --spring.profiles.active=pro
+
+
+#停止某个容器
+docker stop 容器名/ID
+
+#移除某个容器
+docker rm -f 容器名/ID
+
+#重启某个停止的容器
+docker restart 容器名/ID
+
+#进入某个容器内部
+docker exec -it 容器名/ID /bin/bash
+
+#查看所有容器状态
+docker ps -a
+

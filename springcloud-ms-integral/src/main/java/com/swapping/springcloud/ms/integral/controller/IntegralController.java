@@ -25,6 +25,12 @@ public class IntegralController {
     FeignMsMemberClient memberClient;
 
 
+    @RequestMapping(value = "/showIntegral")
+    public String showIntegral(){
+        System.out.println("积分服务到达");
+        return "积分服务调用正常";
+    }
+
     /**
      * 会员积分记录
      *

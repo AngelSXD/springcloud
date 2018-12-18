@@ -34,13 +34,14 @@ public class MyTestController {
         requestHeaders.setContentType(contentType);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("loginName", "19999999999");
+        jsonObject.put("loginName", "15800000000");
         jsonObject.put("loginPwd", "123456");
         jsonObject.put("loginType", "tenement");
         jsonObject.put("uiType", "pc");
         HttpEntity<String> requestEntity = new HttpEntity<String>(jsonObject.toJSONString(), requestHeaders);
 
         //发送清除请求
+//        String url = "http://code.3ceasy.com/login";
         String url = "http://open.lqjava.com/wj/pisenfw/gateway/login";
 //        String url = "http://localhost:34626/login";
         ResponseEntity<String> response = null;
@@ -64,16 +65,16 @@ public class MyTestController {
 
     /**
      * 生成sign
-     * ba323306745f2fea44a77b57b0fdaca0a8346719
+     * 1dbd74bda7216d423b0521efcc44ba6a29e1f104
      *
      *
      * @return
      */
     @RequestMapping("/createSign")
     public String createSign(){
-        String sessionKey = "0027c4fbf4d844a2b9edd5f589865c77";
+        String sessionKey = "1cf775074a6a4a0686285faa0156ad5a";
         Map<String,Object> treeMap = new TreeMap<>();
-        treeMap.put("luna-zuul-auth-login-name","13000000000");
+        treeMap.put("luna-zuul-auth-login-name","16666666666");
         treeMap.put("luna-zuul-auth-ui-type","pc");
         treeMap.put("securityCode","299210229282059566");
 
@@ -147,9 +148,9 @@ public class MyTestController {
 
         RestTemplate template=new RestTemplate();
         Map<String,String> params = new HashMap<>();
-        params.put("luna-zuul-auth-login-name","13000000000");
+        params.put("luna-zuul-auth-login-name","16666666666");
         params.put("luna-zuul-auth-ui-type","pc");
-        params.put("luna-zuul-auth-sign","ba323306745f2fea44a77b57b0fdaca0a8346719");
+        params.put("luna-zuul-auth-sign","344e35ebda17b093359d6a9ba1e69ad85b02ee4d");
         params.put("securityCode","299210229282059566");
 //        String result=template.getForObject(
 //                "http://localhost:34626/ms-code/ten/getScBaseInfo?" +
@@ -158,8 +159,15 @@ public class MyTestController {
 //                        "&luna-zuul-auth-sign={luna-zuul-auth-sign}" +
 //                        "&securityCode={securityCode}", String.class, params);
 
+//        String result=template.getForObject(
+//                "http://open.lqjava.com/wj/pisenfw/gateway/ms-code/ten/getScBaseInfo?" +
+//                        "luna-zuul-auth-login-name={luna-zuul-auth-login-name}" +
+//                        "&luna-zuul-auth-ui-type={luna-zuul-auth-ui-type}" +
+//                        "&luna-zuul-auth-sign={luna-zuul-auth-sign}" +
+//                        "&securityCode={securityCode}", String.class, params);
+
         String result=template.getForObject(
-                "http://open.lqjava.com/wj/pisenfw/gateway/ms-code/ten/getScBaseInfo?" +
+                "http://code.3ceasy.com/ms-code/ten/getScBaseInfo?" +
                         "luna-zuul-auth-login-name={luna-zuul-auth-login-name}" +
                         "&luna-zuul-auth-ui-type={luna-zuul-auth-ui-type}" +
                         "&luna-zuul-auth-sign={luna-zuul-auth-sign}" +

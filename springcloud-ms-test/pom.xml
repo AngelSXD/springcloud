@@ -29,6 +29,14 @@
 			<artifactId>springcloud-ms-core</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.14</version>
+		</dependency>
+
+
 	</dependencies>
 
 
